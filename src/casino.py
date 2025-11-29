@@ -1,17 +1,25 @@
-class CasinoBalance:
-    def __init__(self, balance=0) -> None:
-        self.balance: int = balance
+from src.users import Player, Goose, WarGoose, HonkGoose
 
-    def __setitem__(self, value: int) -> None:
-        if self.balance + value < 0:
-            self.balance = 0
-            return
-        elif not self.balance:
-            print("Player had no money to lose")
-            return
+
+class Casino:
+    def __init__(self) -> None:
+        self.player_list: dict[str, Player] = {}
+        self.goose_list: dict[str, Goose | WarGoose | HonkGoose] = {}
+
+    def add_user(self, user: Player | Goose | WarGoose | HonkGoose) -> None:
+        if type(user) is Player:
+            self.player_list[user.name] = user
+        elif type(user) is Goose | WarGoose | HonkGoose:
+            self.goose_list[user.name] = user
         else:
-            self.balance += value
+            raise TypeError(f"{user} isn't a player nor goose")
 
-class Chip:
-    def __init__(self, amount=0):
-        self.amount = amount
+    def show_players(self) -> str:
+        if not self.player_list:
+            return "Currently no players"
+        return "\n".join([b.about() for a, b in self.player_list.items()])
+
+    def show_gooses(self) -> str:
+        if not self.goose_list:
+            return "Currently no gooses"
+        return "Gooses and their honk volumes\n" + "\n".join([b.about() for a, b in self.goose_list.items()])
