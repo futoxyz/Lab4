@@ -2,9 +2,9 @@ from src.money import CasinoBalance
 
 
 class Player:
-    def __init__(self, name: str) -> None:
+    def __init__(self, name: str, balance: int = 100) -> None:
         self.name = name
-        self.balance: CasinoBalance = CasinoBalance()
+        self.balance: CasinoBalance = CasinoBalance(balance)
 
     def about(self) -> str:
         return f"{self.name}: {self.balance.current_value()}"

@@ -13,12 +13,13 @@ class CasinoBalance:
 
     def __setitem__(self, key, value: int) -> None:
         logging.basicConfig(filename='balance_updates.log', level=logging.INFO)
-        if self.balance + value < 0:
+
+        if self.balance == 0 and value < 0:
+            logger.info(f"[{current_time()}] {key} had 0 and could not lose any more")
+            return
+        elif self.balance + value < 0:
             logger.info(f"[{current_time()}] {key} balance went from {self.balance} to {0}")
             self.balance = 0
-            return
-        elif self.balance == 0 and value < 0:
-            logger.info(f"[{current_time()}] {key} had 0 balance and could not lose any more")
             return
         else:
             logger.info(f"[{current_time()}] {key} balance went from {self.balance} to {self.balance + value}")
