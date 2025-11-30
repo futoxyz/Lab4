@@ -1,15 +1,15 @@
-from src.users import Player, PlayerCollection, Goose, GooseCollection, WarGoose, HonkGoose
+from src import users
 
 
 class Casino:
     def __init__(self) -> None:
-        self.players: PlayerCollection = PlayerCollection()
-        self.gooses: GooseCollection = GooseCollection()
+        self.players: users.PlayerCollection = users.PlayerCollection()
+        self.gooses: users.GooseCollection = users.GooseCollection()
 
-    def add_user(self, user: Player | Goose | WarGoose | HonkGoose) -> None:
-        if type(user) is Player:
+    def add_user(self, user: users.Player | users.Goose | users.WarGoose | users.HonkGoose) -> None:
+        if type(user) is users.Player:
             self.players.__add__(user)
-        elif isinstance(user, (Goose | WarGoose | HonkGoose)):
+        elif isinstance(user, (users.Goose | users.WarGoose | users.HonkGoose)):
             self.gooses.__add__(user)
         else:
             raise TypeError(f"{user} isn't a player nor goose")
