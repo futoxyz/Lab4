@@ -42,53 +42,87 @@ class HonkGoose(Goose):
 
 class PlayerCollection:
     def __init__(self) -> None:
-        self.dict: dict[str, Player] = {}
+        self.list: list[Player] = []
 
-    def __add__(self, player: Player) -> None | str:
+    def add(self, player: Player) -> None | str:
         if type(player) is not Player:
             raise IndexError(f"{player} is not a player!")
-        elif player.name not in self.dict:
-            self.dict[player.name] = player
+        elif player not in self.list:
+            self.list.append(player)
             return None
         else:
-            return f"{player.name} already added"
+            return f"{player.name} is already added"
 
     def remove(self, player: Player) -> None | str:
         if type(player) is not Player:
             raise IndexError(f"{player} is not a player!")
-        elif not self.dict[player.name]:
+        elif player not in self.list:
             return f"{player.name} is not in collection"
         else:
-            self.dict.pop(player.name)
+            self.list.remove(player)
             return None
 
     def show(self) -> str:
-        if not self.dict:
+        if not self.list:
             return "Currently no players"
-        return "\n".join([b.about() for a, b in self.dict.items()])
+        return "\n".join([player.about() for player in self.list])
+
+    def __index__(self, key: int):
+        if type(key) is not int:
+            raise IndexError(f"{key} is not a number")
+        if len(self.list) < key - 1 or key < 0:
+            return f"No {key} in collection"
+        else:
+            return self.list[key].about()
+
+    def __getitem__(self, item: int | slice) -> Player | list[Player]:
+        try:
+            return self.list[item]
+        except IndexError as e:
+            return e
+
+    def __iter__(self):
+        return iter(self.list)
 
 
 class GooseCollection:
     def __init__(self) -> None:
-        self.dict: dict[str, Goose | WarGoose | HonkGoose] = {}
+        self.list: list[Goose | WarGoose | HonkGoose] = []
 
     def __add__(self, goose: Goose | WarGoose | HonkGoose):
 
-        if goose.name not in self.dict:
-            self.dict[goose.name] = goose
+        if goose not in self.list:
+            self.list.append(goose)
             return None
         else:
             return f"{goose.name} already added"
 
     def remove(self, goose: Goose | WarGoose | HonkGoose) -> None | str:
 
-        if not self.dict[goose.name]:
+        if not self.list[goose]:
             return f"{goose.name} is not in collection"
         else:
-            self.dict.pop(goose.name)
+            self.list.remove(goose)
             return None
 
     def show(self) -> str:
-        if not self.dict:
+        if not self.list:
             return "Currently no gooses"
-        return "\n".join([b.about() for a, b in self.dict.items()])
+        return "\n".join([goose.about() for goose in self.list])
+
+    def __index__(self, key: int):
+        if type(key) is not int:
+            raise IndexError(f"{key} is not a number")
+        if len(self.list) < key - 1 or key < 0:
+            return f"No {key} in collection"
+        else:
+            return self.list[key].about()
+
+    def __getitem__(self, item: int | slice) -> Goose | WarGoose | HonkGoose | list[Goose | WarGoose | HonkGoose]:
+        try:
+            return self.list[item]
+        except IndexError as e:
+            return e
+
+    def __iter__(self):
+        return iter(self.list)
