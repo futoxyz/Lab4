@@ -28,8 +28,3 @@ class CasinoBalance:
 
     def current_value(self) -> int:
         return self.balance
-
-
-class Chip:
-    def __init__(self, amount=0) -> None:
-        self.amount = amount
