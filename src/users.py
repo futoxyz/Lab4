@@ -121,8 +121,8 @@ class GooseCollection:
     def __getitem__(self, item: int | slice) -> Goose | list[Goose | WarGoose | HonkGoose]:
         try:
             return self.list[item]
-        except IndexError:
-            raise IndexError("Bad input")
+        except IndexError as e:
+            raise IndexError(e)
 
     def __iter__(self):
         return iter(self.list)
