@@ -1,17 +1,24 @@
-from src import users
-
+from src import users, collections
 
 class Casino:
+    '''
+    Главное казино с коллекцией игроков, гусей и ставок.
+    '''
     def __init__(self) -> None:
-        self.players = users.PlayerCollection()
-        self.gooses = users.GooseCollection()
-        self.chips = users.ChipCollection()
+        self.players = collections.PlayerCollection()
+        self.gooses = collections.GooseCollection()
+        self.chips = collections.ChipCollection()
 
     def add_user(self, user: users.Player | users.Goose | users.WarGoose | users.HonkGoose) -> None:
+        '''
+        Добавляет игрока или гуся в казино. Функция сама определяет тип и добавляет пользователя в нужную коллекцию.
+        :param user: Добавляемый пользователь.
+        :return: Ничего не возвращает. Выводит информацию о добавлении.
+        '''
         if type(user) is users.Player:
-            self.players.add(user)
+            print(self.players.add(user))
         elif isinstance(user, (users.Goose | users.WarGoose | users.HonkGoose)):
-            self.gooses.add(user)
+            print(self.gooses.add(user))
         else:
             raise TypeError(f"{user} isn't a player or goose")
 
@@ -25,13 +32,17 @@ class Casino:
         return self.chips.bets_active()
 
     def place_bet(self, player: users.Player, amount: int) -> None:
+        '''
+        Дополнительные проверки для ставки, включая проверку на наличие баланса для значения ставки.
+        :return: Ничего не возвращает.
+        '''
         if type(amount) is not int or type(player) is not users.Player:
             raise TypeError("Wrong type")
         if amount > player.balance.current_value():
             raise ValueError(f"{player.name} doesn't have enough balance!")
-        self.chips.place_bet(player, amount)
+        print(self.chips.place_bet(player, amount))
 
-    def resolve_bet(self) -> str:
+    def resolve_bet(self) -> None:
         if not self.chips:
-            return "Currently no bets"
-        return self.chips.resolve_bet()
+            print("Currently no bets")
+        print(self.chips.resolve_bet())
