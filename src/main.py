@@ -1,5 +1,6 @@
-from src.constants import LOGO
-from src.casino import Casino
+from src.constants import LOGO, STEP_LIST
+from src.simulation import run_sim_steps
+from time import sleep
 
 def main() -> None:
     """
@@ -7,9 +8,19 @@ def main() -> None:
     :return: Ничего не возвращает.
     """
     print(LOGO)
+    sleep(1)
+    print(STEP_LIST)
+    try:
+        steps = int(input("How many steps do you want to run in a simulation? > "))
+    except ValueError as e:
+        raise ValueError(e)
 
-    goosino = Casino()
-    goosino.show_players()
+    try:
+        seed = int(input("Enter seed for generation (optional) > "))
+    except:
+        seed = None
+    run_sim_steps(steps, seed)
+
 
 if __name__ == "__main__":
     main()

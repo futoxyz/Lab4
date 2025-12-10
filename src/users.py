@@ -3,7 +3,7 @@ from src.balance import CasinoBalance
 
 
 class Player:
-    def __init__(self, name: str, balance: int = 100) -> None:
+    def __init__(self, name: str, balance: int = 200) -> None:
         '''
         :param name: Имя игрока.
         :param balance: Баланс игрока в виде объекта из класса CasinoBalance.
