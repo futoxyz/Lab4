@@ -12,7 +12,9 @@ def players_table(casino: Casino) -> None:
     player_table = Table(title="Players")
     player_table.add_column("Player", justify="center")
     player_table.add_column("Balance", justify="center")
-    player_table.add_row("\n".join([player.name for player in casino.players.list]), "\n".join([str(player.balance.current_value()) for player in casino.players.list]))
+    all_players = [player.name for player in casino.players.list]
+    balances = [str(player.balance.current_value()) for player in casino.players.list]
+    player_table.add_row("\n".join(all_players), "\n".join(balances))
     print(player_table)
     if casino.chips.bets_active():
         bets_table = Table(title="Remaining bets")
