@@ -1,8 +1,12 @@
 from src.casino import Casino
 from src.constants import INIT_USERS
+from src.result_tables import players_table, gooses_table
 from src import users
 from time import sleep
+from rich.console import Console # type: ignore
+from rich.rule import Rule # type: ignore
 import random
+
 
 
 def run_sim_steps(n: int, seed: int | None) -> None:
@@ -13,9 +17,15 @@ def run_sim_steps(n: int, seed: int | None) -> None:
     :return: Ничего не возвращает.
     '''
     goosino = Casino()
+    console = Console()
     for user in INIT_USERS:
         goosino.add_user(user, False)
-
+    console.print(Rule(style="white"))
+    console.print("Before simulation\n", style="bold")
+    players_table(goosino)
+    gooses_table(goosino)
+    console.print(Rule(style="white"))
+    print("Steps:\n")
     if seed is not None:
         random.seed(seed)
 
@@ -27,6 +37,9 @@ def run_sim_steps(n: int, seed: int | None) -> None:
                 sim_over = False
                 break
         if sim_over:
+            console.print(Rule(style="white"))
+            console.print("After simulation\n", style="bold")
+            players_table(goosino)
             print("All players reached 0 balance. Gooses took over the simulation!")
             return
 
@@ -39,7 +52,7 @@ def run_sim_steps(n: int, seed: int | None) -> None:
                 rand_player = random.choice(goosino.players.list)
                 while rand_player.balance.current_value() == 0:
                     rand_player = random.choice(goosino.players.list)
-                amount = random.randint(1, rand_player.balance.current_value() - 1)
+                amount = random.randint(1, rand_player.balance.current_value())
                 goosino.place_bet(rand_player, amount)
             case 2: #Разрешение ставки
                 goosino.resolve_bet()
@@ -66,3 +79,7 @@ def run_sim_steps(n: int, seed: int | None) -> None:
                 while rand_player.balance.current_value() == 0:
                     rand_player = random.choice(goosino.players.list)
                 goosino.place_bet(rand_player, rand_player.balance.current_value())
+
+    console.print(Rule(style="white"))
+    console.print("After simulation\n", style="bold")
+    players_table(goosino)
