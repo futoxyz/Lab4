@@ -27,22 +27,13 @@ STEP_LIST: str = \
     '5. Goose (any kind of) tries to steal from a player\n' \
     '6. Player goes all-in\n'
 
-
-
-
-INIT_PLAYERS: list[users.Player] = \
+INIT_USERS: list[users.Player | users.Goose | users.WarGoose | users.HonkGoose] = \
     [
         users.Player("Ethan"), users.Player("Ivan"), users.Player("Roma"), users.Player("Mihail"),
         users.Player("Dmitry"), users.Player("Konstantin"), users.Player("Andrey"), users.Player("Sergey"),
-        users.Player("Anton"), users.Player("Pavel"), users.Player("Artem"), users.Player("Nikolay")
-    ]
+        users.Player("Anton"), users.Player("Pavel"), users.Player("Artem"), users.Player("Nikolay"),
 
-INIT_GOOSES: list[users.Goose | users.WarGoose | users.HonkGoose] = \
-    [
         users.Goose("Boris"), users.Goose("Viktor"), users.Goose("Oleg"), users.Goose("Peter"),
-        users.WarGoose("Grigoriy"), users.WarGoose("Denis"), users.WarGoose("Fedor"), users.WarGoose("Igor"),
-        users.HonkGoose("Gosha"), users.HonkGoose("Kirill"), users.HonkGoose("Maksim"), users.HonkGoose("Valera")
+        users.WarGoose("Denis"), users.WarGoose("Grigoriy"), users.WarGoose("Fedor"), users.WarGoose("Igor"),
+        users.HonkGoose("Gosha", 0.3), users.HonkGoose("Kirill", 0.5), users.HonkGoose("Maksim", 0.2), users.HonkGoose("Valera", 0.9)
     ]
-
-INIT_USERS: list[users.Player | users.Goose | users.WarGoose | users.HonkGoose] = INIT_PLAYERS.copy()
-INIT_USERS.extend(INIT_GOOSES)

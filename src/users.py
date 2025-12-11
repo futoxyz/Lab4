@@ -51,15 +51,15 @@ class WarGoose(Goose):
     '''
     Подкласс гуся, который может атаковать игрока. Успешная атака отнимает 50 валюты (или меньше) у игрока.
     '''
-    def attack(self, player: Player) -> None:
+    def attack(self, player: Player) -> str:
         player.balance.__setitem__(player.name, -50)
-        return
+        return f"{self.name} attacked {player.name}! Player lost 50 balance"
 
 
 class HonkGoose(Goose):
     '''
     Подкласс гуся, который может накричать на игрока. Баланс игрока изменяется в зависимости от громкости крика (до 100 валюты).
     '''
-    def scream(self, player: Player) -> None:
+    def scream(self, player: Player) -> str:
         player.balance.__setitem__(player.name, int(-100 * self.honk_volume))
-        return
+        return f"{self.name} screamed at {player.name}! Player lost {int(100 * self.honk_volume)} balance"

@@ -10,15 +10,17 @@ class PlayerCollection:
         '''
         self.list: list[users.Player] = []
 
-    def add(self, player: users.Player) -> str:
+    def add(self, player: users.Player, inform: bool) -> None:
         '''
         :param player: Добавляемый игрок.
+        :param inform: Условие вывода информации о добавлении.
         :return: Информация о добавлении.
         '''
         if type(player) is not users.Player:
             raise IndexError(f"{player} is not a player!")
         self.list.append(player)
-        return f"users.Player \"{player.name}\" was added"
+        if inform:
+            print(f"Player \"{player.name}\" was added")
 
     def remove(self, player: users.Player) -> str:
         '''
@@ -31,7 +33,7 @@ class PlayerCollection:
             return f"{player.name} is not in collection"
         else:
             self.list.remove(player)
-            return f"users.Player \"{player.name}\" was removed"
+            return f"Player \"{player.name}\" was removed"
 
     def show(self) -> str:
         '''
@@ -75,11 +77,12 @@ class GooseCollection:
     def __init__(self) -> None:
         self.list: list[users.Goose | users.WarGoose | users.HonkGoose] = []
 
-    def add(self, goose: users.Goose | users.WarGoose | users.HonkGoose):
+    def add(self, goose: users.Goose | users.WarGoose | users.HonkGoose, inform: bool) -> None:
         if not isinstance(goose, users.Goose | users.WarGoose | users.HonkGoose):
             raise IndexError(f"{goose} is not a goose!")
         self.list.append(goose)
-        return f"users.Goose \"{goose.name}\" was added"
+        if inform:
+            print(f"Goose \"{goose.name}\" was added")
 
     def remove(self, goose: users.Goose | users.WarGoose | users.HonkGoose) -> None | str:
 
@@ -87,7 +90,7 @@ class GooseCollection:
             return f"{goose.name} is not in collection"
         else:
             self.list.remove(goose)
-            return f"users.Goose \"{goose.name}\" was removed"
+            return f"Goose \"{goose.name}\" was removed"
 
     def show(self) -> str:
         if not self.list:
@@ -126,6 +129,11 @@ class ChipCollection:
         :param amount: Размер ставки.
         :return: Информация о создании ставки. Особое уведомление, если игрок идет all-in.
         '''
+        if amount > player.balance.current_value():
+            raise ValueError(f"{player.name} doesn\'t have enough balance!")
+        if amount == 0:
+            return "Cannot bet 0"
+
         if amount == player.balance.current_value():
             self.bets[player] = CasinoBalance(amount)
             return f"{player.name} went all-in!"

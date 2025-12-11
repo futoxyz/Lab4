@@ -9,16 +9,17 @@ class Casino:
         self.gooses = collections.GooseCollection()
         self.chips = collections.ChipCollection()
 
-    def add_user(self, user: users.Player | users.Goose | users.WarGoose | users.HonkGoose) -> None:
+    def add_user(self, user: users.Player | users.Goose | users.WarGoose | users.HonkGoose, inform=True) -> None:
         '''
         Добавляет игрока или гуся в казино. Функция сама определяет тип и добавляет пользователя в нужную коллекцию.
         :param user: Добавляемый пользователь.
+        :param inform: Условие вывода информации о добавлении.
         :return: Ничего не возвращает. Выводит информацию о добавлении.
         '''
         if type(user) is users.Player:
-            print(self.players.add(user))
+            self.players.add(user, inform)
         elif isinstance(user, (users.Goose | users.WarGoose | users.HonkGoose)):
-            print(self.gooses.add(user))
+            self.gooses.add(user, inform)
         else:
             raise TypeError(f"{user} isn't a player or goose")
 
@@ -33,13 +34,11 @@ class Casino:
 
     def place_bet(self, player: users.Player, amount: int) -> None:
         '''
-        Дополнительные проверки для ставки, включая проверку на наличие баланса для значения ставки.
+        Дополнительные проверки для ставки на ввод.
         :return: Ничего не возвращает.
         '''
         if type(amount) is not int or type(player) is not users.Player:
             raise TypeError("Wrong type")
-        if amount > player.balance.current_value():
-            raise ValueError(f"{player.name} doesn't have enough balance!")
         print(self.chips.place_bet(player, amount))
 
     def resolve_bet(self) -> None:
