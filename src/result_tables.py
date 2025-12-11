@@ -4,11 +4,16 @@ from src.casino import Casino
 from src import users
 
 def players_table(casino: Casino) -> None:
+    '''
+    Вывод таблицы rich о текущих игроках и их балансах. Также вывод инофрмации об активных ставках при наличии
+    :param casino: Объект класса казино.
+    :return: Ничего не возвращает
+    '''
     player_table = Table(title="Players")
     player_table.add_column("Player", justify="center")
     player_table.add_column("Balance", justify="center")
     player_table.add_row("\n".join([player.name for player in casino.players.list]), "\n".join([str(player.balance.current_value()) for player in casino.players.list]))
-
+    print(player_table)
     if casino.chips.bets_active():
         bets_table = Table(title="Remaining bets")
         bets_table.add_column("Player", justify="center")
@@ -19,12 +24,16 @@ def players_table(casino: Casino) -> None:
             players.append(plr.name)
             amounts.append(str(plr.balance.current_value()))
         bets_table.add_row("\n".join(players), "\n".join(amounts))
-        print(player_table, bets_table)
-        return
-    print(player_table)
+        print(bets_table)
+
 
 
 def gooses_table(casino: Casino) -> None:
+    '''
+    Вывод таблицы о гусях.
+    :param casino: Объект класса казино.
+    :return: Ничего не возвращает
+    '''
     table = Table(title="Gooses")
     table.add_column("Regular goose")
     table.add_column("War goose")

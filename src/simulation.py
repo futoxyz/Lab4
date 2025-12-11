@@ -30,7 +30,7 @@ def run_sim_steps(n: int, seed: int | None) -> None:
         random.seed(seed)
 
     for i in range(n):
-        sleep(0.15)
+        sleep(0.01)
         sim_over = True
         for player in goosino.players.list:
             if player.balance.current_value() > 0:
@@ -48,33 +48,33 @@ def run_sim_steps(n: int, seed: int | None) -> None:
             step_rtd = random.randint(1, 6)
 
         match step_rtd:
-            case 1: #Создание ставки
+            case 1:  # Создание ставки
                 rand_player = random.choice(goosino.players.list)
                 while rand_player.balance.current_value() == 0:
                     rand_player = random.choice(goosino.players.list)
                 amount = random.randint(1, rand_player.balance.current_value())
                 goosino.place_bet(rand_player, amount)
-            case 2: #Разрешение ставки
+            case 2:  # Разрешение ставки
                 goosino.resolve_bet()
-            case 3: # Атака от гуся на игрока
+            case 3:  # Атака от гуся на игрока
                 rand_wargoose = random.choice(goosino.gooses.list)
                 while type(rand_wargoose) is not users.WarGoose:
                     rand_wargoose = random.choice(goosino.gooses.list)
                 rand_player = random.choice(goosino.players.list)
 
                 print(rand_wargoose.attack(rand_player))
-            case 4: # Крик от гуся на игрока
+            case 4:  # Крик от гуся на игрока
                 rand_honkgoose = random.choice(goosino.gooses.list)
                 while type(rand_honkgoose) is not users.HonkGoose:
                     rand_honkgoose = random.choice(goosino.gooses.list)
                 rand_player = random.choice(goosino.players.list)
 
                 print(rand_honkgoose.scream(rand_player))
-            case 5: # Попытка кражи у игрока от любого гуся
+            case 5:  # Попытка кражи у игрока от любого гуся
                 rand_goose = random.choice(goosino.gooses.list)
                 rand_player = random.choice(goosino.players.list)
                 print(rand_goose.steal_attempt(rand_player))
-            case 6: # Игрок ставит весь свой баланс
+            case 6:  # Игрок ставит весь свой баланс
                 rand_player = random.choice(goosino.players.list)
                 while rand_player.balance.current_value() == 0:
                     rand_player = random.choice(goosino.players.list)
