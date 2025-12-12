@@ -3,8 +3,8 @@ from src.constants import INIT_USERS
 from src.result_tables import players_table, gooses_table
 from src import users
 from time import sleep
-from rich.console import Console # type: ignore
-from rich.rule import Rule # type: ignore
+from rich.console import Console
+from rich.rule import Rule
 import random
 
 

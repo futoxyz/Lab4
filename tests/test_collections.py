@@ -1,4 +1,4 @@
-import pytest # type: ignore
+import pytest
 from src.collections import PlayerCollection, GooseCollection
 from src import users
 
@@ -18,14 +18,14 @@ def test_both_collections() -> None:
 
     player_col.add(ethan)
     with pytest.raises(TypeError):
-        player_col.add(boris) # type: ignore
+        player_col.add(boris)
     with pytest.raises(TypeError):
-        player_col.add(denis) # type: ignore
+        player_col.add(denis)
     with pytest.raises(TypeError):
-        player_col.add(gosha) # type: ignore
+        player_col.add(gosha)
 
     with pytest.raises(TypeError):
-        goose_col.add(ethan) # type: ignore
+        goose_col.add(ethan)
 
     goose_col.add(boris)
     goose_col.add(denis)

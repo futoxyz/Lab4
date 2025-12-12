@@ -63,7 +63,7 @@ class PlayerCollection:
             result: users.Player | list[users.Player] = self.list[item]
             if type(result) is users.Player:
                 pass
-            elif len(result) < abs(item.stop - item.start): # type: ignore
+            elif len(result) < abs(item.stop - item.start):
                 raise IndexError
             return result
         except IndexError as e:
@@ -118,7 +118,7 @@ class GooseCollection:
             result: users.Goose | list[users.Goose | users.WarGoose | users.HonkGoose] = self.list[item]
             if type(result) is not list:
                 pass
-            elif len(result) < abs(item.stop - item.start): # type: ignore
+            elif len(result) < abs(item.stop - item.start):
                 raise IndexError
             return result
         except IndexError as e:

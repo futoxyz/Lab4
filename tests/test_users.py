@@ -1,4 +1,4 @@
-import pytest # type: ignore
+import pytest
 from src import users
 from src.collections import ChipCollection
 

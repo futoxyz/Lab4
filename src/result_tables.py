@@ -1,5 +1,5 @@
-from rich import print # type: ignore
-from rich.table import Table # type: ignore
+from rich import print
+from rich.table import Table
 from src.casino import Casino
 from src import users
 
