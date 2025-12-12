@@ -10,14 +10,14 @@ class PlayerCollection:
         '''
         self.list: list[users.Player] = []
 
-    def add(self, player: users.Player, inform: bool) -> None:
+    def add(self, player: users.Player, inform: bool = True) -> None:
         '''
         :param player: Добавляемый игрок.
         :param inform: Условие вывода информации о добавлении.
         :return: Информация о добавлении.
         '''
         if type(player) is not users.Player:
-            raise IndexError(f"{player} is not a player!")
+            raise TypeError(f"{player} is not a player!")
         self.list.append(player)
         if inform:
             print(f"Player \"{player.name}\" was added")
@@ -28,9 +28,9 @@ class PlayerCollection:
         :return: Информация об удалении/невозможности удаления.
         '''
         if type(player) is not users.Player:
-            raise IndexError(f"{player} is not a player!")
+            raise TypeError(f"{player} is not a player!")
         elif player not in self.list:
-            return f"{player.name} is not in collection"
+            raise IndexError(f"{player.name} is not in collection")
         else:
             self.list.remove(player)
             return f"Player \"{player.name}\" was removed"
@@ -48,18 +48,25 @@ class PlayerCollection:
         Метод индексирования.
         '''
         if type(key) is not int:
-            raise IndexError(f"{key} is not a number")
-        if len(self.list) < key - 1 or key < 0:
-            return f"No {key} in collection"
-        else:
+            raise TypeError(f"{key} is not a number")
+        try:
             return self.list[key].about()
+        except IndexError as e:
+            raise IndexError(e)
 
     def __getitem__(self, item: int | slice) -> users.Player | list[users.Player]:
         '''
         Метод среза.
         '''
+        if not isinstance(item, (int, slice)):
+            raise TypeError(f"{item} is not a number or slice")
         try:
-            return self.list[item]
+            result: users.Player | list[users.Player] = self.list[item]
+            if type(result) is users.Player:
+                pass
+            elif len(result) < abs(item.stop - item.start): # type: ignore
+                raise IndexError
+            return result
         except IndexError as e:
             raise IndexError(e)
 
@@ -77,9 +84,9 @@ class GooseCollection:
     def __init__(self) -> None:
         self.list: list[users.Goose | users.WarGoose | users.HonkGoose] = []
 
-    def add(self, goose: users.Goose | users.WarGoose | users.HonkGoose, inform: bool) -> None:
+    def add(self, goose: users.Goose | users.WarGoose | users.HonkGoose, inform: bool = True) -> None:
         if not isinstance(goose, users.Goose | users.WarGoose | users.HonkGoose):
-            raise IndexError(f"{goose} is not a goose!")
+            raise TypeError(f"{goose} is not a goose!")
         self.list.append(goose)
         if inform:
             print(f"Goose \"{goose.name}\" was added")
@@ -87,7 +94,7 @@ class GooseCollection:
     def remove(self, goose: users.Goose | users.WarGoose | users.HonkGoose) -> None | str:
 
         if goose not in self.list:
-            return f"{goose.name} is not in collection"
+            raise IndexError(f"{goose.name} is not in collection")
         else:
             self.list.remove(goose)
             return f"Goose \"{goose.name}\" was removed"
@@ -99,15 +106,22 @@ class GooseCollection:
 
     def __index__(self, key: int) -> str:
         if type(key) is not int:
-            raise IndexError(f"{key} is not a number")
-        if len(self.list) < key - 1 or key < 0:
-            return f"No {key} in collection"
-        else:
+            raise TypeError(f"{key} is not a number")
+        try:
             return self.list[key].about()
+        except IndexError as e:
+            raise IndexError(e)
 
     def __getitem__(self, item: int | slice) -> users.Goose | list[users.Goose | users.WarGoose | users.HonkGoose]:
+        if not isinstance(item, (int, slice)):
+            raise TypeError(f"{item} is not a number or slice")
         try:
-            return self.list[item]
+            result: users.Goose | list[users.Goose | users.WarGoose | users.HonkGoose] = self.list[item]
+            if type(result) is not list:
+                pass
+            elif len(result) < abs(item.stop - item.start): # type: ignore
+                raise IndexError
+            return result
         except IndexError as e:
             raise IndexError(e)
 
