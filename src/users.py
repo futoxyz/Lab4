@@ -44,7 +44,7 @@ class Goose:
         if amount > dice:
             amount = dice
         player.balance.__setitem__(player.name, -amount)
-        return f"{self.name} has stolen {amount} from {player.name}"
+        return f"{self.name} has stolen up to {amount} from {player.name}"
 
 
 class WarGoose(Goose):
@@ -53,7 +53,7 @@ class WarGoose(Goose):
     '''
     def attack(self, player: Player) -> str:
         player.balance.__setitem__(player.name, -50)
-        return f"{self.name} attacked {player.name}! Player lost 50 balance"
+        return f"{self.name} attacked {player.name}! Player lost up to 50 balance"
 
 
 class HonkGoose(Goose):
@@ -62,4 +62,4 @@ class HonkGoose(Goose):
     '''
     def scream(self, player: Player) -> str:
         player.balance.__setitem__(player.name, int(-100 * self.honk_volume))
-        return f"{self.name} screamed at {player.name}! Player lost {int(100 * self.honk_volume)} balance"
+        return f"{self.name} screamed at {player.name}! Player lost up to {int(100 * self.honk_volume)} balance"
