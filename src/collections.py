@@ -1,5 +1,4 @@
 from src import users
-from src.balance import CasinoBalance
 import random
 
 
@@ -134,7 +133,7 @@ class ChipCollection:
         '''
         Коллекция всех ставок в казино. Хранит словарь с инофрмацией об игроке и его ставке.
         '''
-        self.bets: dict[users.Player, CasinoBalance] = {}
+        self.bets: dict[users.Player, int] = {}
 
     def place_bet(self, player: users.Player, amount: int) -> str:
         '''
@@ -149,16 +148,18 @@ class ChipCollection:
             return "Cannot bet 0"
 
         if amount == player.balance.current_value():
-            self.bets[player] = CasinoBalance(amount)
+            player.balance.__setitem__(player.name, -amount)
+            self.bets[player] = amount
             return f"{player.name} went all-in!"
-        self.bets[player] = CasinoBalance(amount)
+        self.bets[player] = amount
+        player.balance.__setitem__(player.name, -amount)
         return f"{player.name} made a {amount} bet"
 
     def bets_active(self) -> list[tuple[str, int]]:
         '''
         :return: Вывод ставок.
         '''
-        return [(a.name, b.current_value()) for a,b in self.bets.items()]
+        return [(a.name, b) for a, b in self.bets.items()]
 
     def resolve_bet(self) -> str:
         '''
@@ -173,9 +174,8 @@ class ChipCollection:
         outcome = random.randint(1, 100)
 
         if outcome <= (2 - coef) * 50:
-            winning = int(amount.current_value() * coef)
+            winning = amount + int(amount * coef)
             player.balance.__setitem__(player.name, winning)
             return f"{player.name} won {winning} from his bet!"
         else:
-            player.balance.__setitem__(player.name, -amount.current_value())
-            return f"{player.name} lost {amount.current_value()} from his bet!"
+            return f"{player.name} lost {amount} from his bet!"

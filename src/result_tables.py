@@ -20,11 +20,8 @@ def players_table(casino: Casino) -> None:
         bets_table = Table(title="Remaining bets")
         bets_table.add_column("Player", justify="center")
         bets_table.add_column("Bet amount", justify="center", style="magenta")
-        players: list[str] = []
-        amounts: list[str] = []
-        for plr in casino.chips.bets.keys():
-            players.append(plr.name)
-            amounts.append(str(plr.balance.current_value()))
+        players: list[str] = [plr.name for plr in casino.chips.bets.keys()]
+        amounts: list[str] = [str(x) for x in casino.chips.bets.values()]
         bets_table.add_row("\n".join(players), "\n".join(amounts))
         print(bets_table)
 
