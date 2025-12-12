@@ -1,10 +1,15 @@
 import pytest # type: ignore
-from src import users, collections
+from src import users
+from src.collections import ChipCollection
 
 
 def test_player_bets() -> None:
+    '''
+    Тест ставок игрока.
+    :return: Ничего не возвращает.
+    '''
     ethan = users.Player("Ethan", 200)
-    chip_col = collections.ChipCollection()
+    chip_col = ChipCollection()
 
     chip_col.place_bet(ethan, 50)
 
@@ -18,6 +23,10 @@ def test_player_bets() -> None:
 
 
 def test_goose_actions() -> None:
+    '''
+    Тест возможностей гусей: атака, крик, попытка кражи.
+    :return: Ничего не возвращает.
+    '''
     ethan = users.Player("Ethan", 300)
     boris = users.Goose("Boris")
     denis = users.WarGoose("Denis")
