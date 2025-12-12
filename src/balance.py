@@ -26,7 +26,7 @@ class CasinoBalance:
         :param value: Изменение баланса (с учётом знака).
         :return: Ничего не возвращает.
         '''
-        logging.basicConfig(filename='balance_updates.log', level=logging.INFO)
+        logging.basicConfig(filename='balance.log', level=logging.INFO)
 
         if self.balance == 0 and value < 0:
             logger.info(f"[{current_time()}] {key} had 0 and could not lose any more")
